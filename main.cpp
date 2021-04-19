@@ -1,11 +1,12 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <experimental/filesystem>
 
-namespace fs = std::experimental::filesystem;
+
 
 using namespace std;
+
+
 int copy(string src,string path){
 	ifstream file1(src);
 	ofstream file2(path);
@@ -19,8 +20,10 @@ int copy(string src,string path){
 		}
 	}
 	else {
-		cout << "File not owned by process\n";
-		system("sudo ./a.out main.cpp /media/stardisk/cs/cs455/cs455project/test");
+		cout << "File not owned by process or does not exist, please enter sudo\n";
+		string newrun = "sudo ./filecopy "+src+" "+path;
+		cout << newrun;
+		system("sudo ./filecopy main.cpp /media/stardisk/cs/cs455/cs455project/test");
 	}
 	file1.close();
 	file2.close();
