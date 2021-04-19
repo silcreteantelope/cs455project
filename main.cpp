@@ -1,7 +1,9 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <experimental/filesystem>
 
+namespace fs = std::experimental::filesystem;
 
 using namespace std;
 int copy(string src,string path){
@@ -16,8 +18,10 @@ int copy(string src,string path){
 			}
 		}
 	}
-	else
+	else {
 		cout << "File not owned by process\n";
+		system("sudo ./a.out main.cpp /media/stardisk/cs/cs455/cs455project/test");
+	}
 	file1.close();
 	file2.close();
 
@@ -35,6 +39,7 @@ int main(int arc, char* argv[]) {
 		src=argv[1];
 	}
 	if(arc==1){
+		
 		cout << "Enter full destination path to copy src file to ";
 		cin >> dest;
 		path=dest+"/"+src;
