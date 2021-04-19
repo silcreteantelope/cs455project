@@ -35,7 +35,7 @@ int main(int arc, char* argv[]) {
 		src=argv[1];
 	}
 	if(argv[2]==0){
-		cout << "Enter destination path to copy src file to ";
+		cout << "Enter full destination path to copy src file to ";
 		cin >> dest;
 		path=dest+"/"+src;
 	}
