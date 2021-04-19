@@ -21,9 +21,10 @@ int copy(string src,string path){
 	}
 	else {
 		cout << "File not owned by process or does not exist, please enter sudo\n";
-		string newrun = "sudo ./filecopy "+src+" "+path;
-		cout << newrun;
-		system("sudo ./filecopy main.cpp /media/stardisk/cs/cs455/cs455project/test");
+		string strcommand = "sudo ./filecopy "+src+" "+path;
+		const char * command = strcommand.c_str();
+		//cout << newrun;
+		system(command);
 	}
 	file1.close();
 	file2.close();
