@@ -1,19 +1,26 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+
+
 using namespace std;
 int copy(string src,string path){
 	ifstream file1(src);
 	ofstream file2(path);
-	string line;
-	if (file1.good() && file2.good()) {
-		while (getline(file1, line)) {
-			file2 << line;
-			file2 << '\n';
+	if(file1.good()){
+		string line;
+		if (file1.good() && file2.good()) {
+			while (getline(file1, line)) {
+				file2 << line;
+				file2 << '\n';
+			}
 		}
 	}
+	else
+		cout << "File not owned by process\n";
 	file1.close();
 	file2.close();
+
 	return 0;
 }
 
