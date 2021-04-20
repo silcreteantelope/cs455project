@@ -2,3 +2,5 @@
 rootfile.c
 a.out
 filecopy
+switchtest.cpp
+test/main.cpp

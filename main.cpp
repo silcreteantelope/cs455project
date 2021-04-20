@@ -2,10 +2,7 @@
 #include <iostream>
 #include <string>
 
-
-
 using namespace std;
-
 
 int copy(string src,string path){
 	ifstream file1(src);
@@ -20,7 +17,8 @@ int copy(string src,string path){
 		}
 	}
 	else {
-		cout << "File not owned by process or does not exist, please enter sudo\n";
+		cout << "File not owned by process or does not exist, if the file is owned by root";
+		cout << "or another user complete the sudo prompt, else check if file exists\n";
 		string strcommand = "sudo ./filecopy "+src+" "+path;
 		const char * command = strcommand.c_str();
 		//cout << newrun;
@@ -34,23 +32,59 @@ int copy(string src,string path){
 
 
 int main(int arc, char* argv[]) {
-	string src, dest, path;
-	if(arc==1){
-		cout << "Enter src file to copy ";
+	cout << "\nFileCopy started: ";
+	
+	string src, dest, path, input;
+	int checksum=0,permission=0,info=0;
+	
+	if(arc==1){ //No src file or destination or flags
+		cout << "Enter src file to copy: ";
 		cin >> src;
-	}
-	else {
-		src=argv[1];
-	}
-	if(arc==1){
-		
-		cout << "Enter full destination path to copy src file to ";
+		cout << "Enter full destination path to copy src file to: ";
 		cin >> dest;
 		path=dest+"/"+src;
+		cout << "Would you like to checksum the src and moved files to check file integrity(y/n) ";
+		cin >> input;
+		if(input=="Y"||input=="y"){
+			cout << "checksum flag active\n";
+			checksum=1;
+		}
+		cout << "Would you like to change the owner and group permissions of file(y/n) ";
+		cin >> input;
+		if(input=="Y"||input=="y"){
+			cout << "permission flag active\n";
+			permission=1;
+		}
+		cout << "Would you like their to be a .txt file in the destination path with";
+		cout << "time, date, and original file path of the file transfer for future notice(y/n) ";
+		cin >> input;
+		if(input=="Y"||input=="y"){
+			cout << "info text file flag active\n";
+			info=1;
+		}
 	}
-	else {
-		string destpath(argv[2]);
-		path=destpath+"/"+src;
+	for(int i=0;i<=arc-1;i++){
+		string temp(argv[i]);
+		if(temp=="checksum" || temp=="c"){
+			cout << "checksum flag active\n";
+			checksum=1;
+		}				
+		else if(temp=="permission"|| temp=="p"){
+			cout << "permission flag active\n";
+			permission=1;
+		}
+		else if(temp=="info"|| temp=="i"){
+			cout << "info text file flag active\n";
+			info=1;
+		}
+		else {
+			if(src.empty())
+				src=argv[i];
+			else if(path.empty()){
+				string destpath(argv[i]);
+				path=destpath+"/"+src;
+			}
+		}
 	}
 	copy(src,path);
 }
