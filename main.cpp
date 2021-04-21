@@ -4,7 +4,7 @@
 
 using namespace std;
 
-int copy(string src,string path){
+int copy(string src,string path,int cflag,int pflag,int iflag){
 	ifstream file1(src);
 	ofstream file2(path);
 	if(file1.good()){
@@ -26,7 +26,16 @@ int copy(string src,string path){
 	}
 	file1.close();
 	file2.close();
-
+	if(pflag=1){
+		string user,group;
+		cout << "Enter unix user to own file: ";
+		cin >> user;
+		cout << "Enter unix group to own file: ";
+		cin >> group;
+		string permissioncommand = "chown "+user+":"+group+" "+path;
+		const char * command = permissioncommand.c_str();
+		system(command);
+	}
 	return 0;
 }
 
@@ -86,5 +95,5 @@ int main(int arc, char* argv[]) {
 			}
 		}
 	}
-	copy(src,path);
+	copy(src,path,checksum,permission,info);
 }
