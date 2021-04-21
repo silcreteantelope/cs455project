@@ -1,2 +1,2 @@
 # cs455project
-Compile by make
+Compile by running make in a terminal in the cs455project directory
