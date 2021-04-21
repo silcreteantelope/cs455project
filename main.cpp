@@ -4,6 +4,8 @@
 
 using namespace std;
 
+
+//Int copy() takes src, path, and flags and copies the file to the path
 int copy(string src,string path,int cflag,int pflag,int iflag){
 	ifstream file1(src);
 	ofstream file2(path);
@@ -21,7 +23,6 @@ int copy(string src,string path,int cflag,int pflag,int iflag){
 		cout << "or another user complete the sudo prompt, else check if file exists\n";
 		string strcommand = "sudo ./filecopy "+src+" "+path;
 		const char * command = strcommand.c_str();
-		//cout << newrun;
 		system(command);
 	}
 	file1.close();
