@@ -1,6 +1,7 @@
 # cs455project
 Compile by running make in a terminal in the cs455project directory
-Then run ./filecopy [-flags] [src] [destinationpath
+Then run ./filecopy [-flags] [src] [destinationpath]
+
 Flags accepted
 
 -c checksums src and moved file
