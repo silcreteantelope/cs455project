@@ -50,8 +50,8 @@ int copy(string src,string path,int cflag,int pflag,int iflag){
 		}
 	}
 	else {
-		cout << "File not owned by process or does not exist, if the file is owned by root";
-		cout << "or another user complete the sudo prompt, else check if file exists\n";
+		cout << "File not owned by process or does not exist, if the file is owned by root";		//4-1  error message doesn't expose too much information
+		cout << "or another user complete the sudo prompt, else check if file exists\n";			
 		string strcommand = "sudo ./filecopy "+src+" "+path;
 		const char * command = strcommand.c_str();
 		system(command);
@@ -79,24 +79,24 @@ int main(int arc, char* argv[]) {
 	int checksum=0,permission=0,info=0;
 	
 	if(arc==1){ //No src file or destination or flags
-		cout << "Enter src file to copy: ";
+		cout << "Enter src file to copy: ";		
 		src = getUserFile();
-		cout << "Enter full destination path to copy src file to: ";
+		cout << "Enter full destination path to copy src file to: ";	
 		dest = getUserFile();
 		path=dest+"/"+src;
-		cout << "Would you like to checksum the src and moved files to check file integrity(y/n) ";
+		cout << "Would you like to checksum the src and moved files to check file integrity(y/n) ";		//4-1	Simple and clear questions for user about security
 		cin >> input;
 		if(input=="Y"||input=="y"){
 			cout << "checksum flag active\n";
 			checksum=1;
 		}
-		cout << "Would you like to change the owner and group permissions of file(y/n) ";
+		cout << "Would you like to change the owner and group permissions of file(y/n) ";		//4-1	Makes security decisions actionable 
 		cin >> input;
 		if(input=="Y"||input=="y"){
 			cout << "permission flag active\n";
 			permission=1;
 		}
-		cout << "Would you like their to be a .txt file in the destination path with";
+		cout << "Would you like their to be a .txt file in the destination path with";		//4-1 user is presented with choice
 		cout << "time, date, and original file path of the file transfer for future notice(y/n) ";
 		cin >> input;
 		if(input=="Y"||input=="y"){
