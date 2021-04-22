@@ -22,7 +22,7 @@ string getUserFile(){
 		}
 	
         	if(hasIllegal){
-			cout << "The filename you entered was not valid." << endl; //repeats the process of prompting for a name until the user enters a valid one
+			cout << "The filename you entered was not valid. Enter new filename or ctrl-c" << endl; //repeats the process of prompting for a name until the user enters a valid one
         		i=0;	
 		}
 		cin.clear();    //clears the previous input in the case it wasn't a valid filename
