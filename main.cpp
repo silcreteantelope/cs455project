@@ -4,6 +4,36 @@
 
 using namespace std;
 
+const int maxFilenameLength = 254;
+const string illegalChars = "\\/:*?\"<>|";
+
+string getUserFile(){
+	string filename;
+	bool hasIllegal = false;
+	int filenameLength;
+
+    do {    //cin a filename from user
+		cin >> filename;
+		filenameLength = filename.length();	//record its length
+		for(int i=0; i<filenameLength; i++) {	//make sure it doesn't contain any illegal characters
+			if(illegalChars.find_first_of(filename[i]) != string::npos) hasIllegal = true;
+			else if(!isalnum(filename[i])) hasIllegal = true; 	//if it does, ask for a new one
+		}
+
+        cout << "THe filename you entered was not valid." << endl; //repeats the process of prompting for a name until the user enters a valid one
+        cin.clear();    //clears the previous input in the case it wasn't a valid filename
+        cin.ignore(256,'\n');   //ignores the previous enter
+    } while((cin.fail()) || hasIllegal || (filenameLength >= maxFilenameLength));
+
+    cin.ignore(); //prevents the last enter from being counted as an empty Movie
+
+
+	return filename;
+}
+
+bool isattemptAtInjection(string input){
+
+}
 
 //Int copy() takes src, path, and flags and copies the file to the path
 int copy(string src,string path,int cflag,int pflag,int iflag){
@@ -49,9 +79,9 @@ int main(int arc, char* argv[]) {
 	
 	if(arc==1){ //No src file or destination or flags
 		cout << "Enter src file to copy: ";
-		cin >> src;
+		src = getUserFile();
 		cout << "Enter full destination path to copy src file to: ";
-		cin >> dest;
+		dest = getUserFile();
 		path=dest+"/"+src;
 		cout << "Would you like to checksum the src and moved files to check file integrity(y/n) ";
 		cin >> input;
