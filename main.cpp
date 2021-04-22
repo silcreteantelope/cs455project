@@ -17,7 +17,6 @@ string getUserFile(){
 		cin >> filename;
 		filenameLength = filename.length();	//record its length
 		for(i=0; i<filenameLength; i++) {	//make sure it doesn't contain any illegal characters
-			cout<<"Current char: "<<filename[i]<<"\n";
 			if(illegalChars.find_first_of(filename[i]) != string::npos){ hasIllegal = true; cout<<"This char is illegal"<<filename[i]<<"\n";}
 			//else if(!isalnum(filename[i])) hasIllegal = true; 	//if it does, ask for a new one
 		}
@@ -81,39 +80,12 @@ int main(int arc, char* argv[]) {
 	
 	string src, dest, path, input;
 	int checksum=0,permission=0,info=0;
-	
-	/*
-	if(arc==1){ //No src file or destination or flags
-		cout << "Enter src file to copy: ";		
-		src = getUserFile();
-		cout << "Enter full destination path to copy src file to: ";	
-		dest = getUserFile();
-		path=dest+"/"+src;
-		cout << "Would you like to checksum the src and moved files to check file integrity(y/n) ";		//4-1	Simple and clear questions for user about security
-		cin >> input;
-		if(input=="Y"||input=="y"){
-			cout << "checksum flag active\n";
-			checksum=1;
-		}
-		cout << "Would you like to change the owner and group permissions of file(y/n) ";		//4-1	Makes security decisions actionable 
-		cin >> input;
-		if(input=="Y"||input=="y"){
-			cout << "permission flag active\n";
-			permission=1;
-		}
-		cout << "Would you like their to be a .txt file in the destination path with";		//4-1 user is presented with choice
-		cout << "time, date, and original file path of the file transfer for future notice(y/n) ";
-		cin >> input;
-		if(input=="Y"||input=="y"){
-			cout << "info text file flag active\n";
-			info=1;
-		}
-	}
-	/**/
+	int flagquestion=0; //Check if user has been asked if flags shall be enabled
 	for(int i=1;i<=arc-1;i++){
 		cout << "argv["<< i << "]= " << argv[i] << "\n";
 		string temp(argv[i]);
 		if(temp.find('-') != std::string::npos){
+			flagquestion=1;
 			if(temp.find('c') != std::string::npos){
 				cout << "checksum flag active\n";
 				checksum=1;
@@ -139,25 +111,6 @@ int main(int arc, char* argv[]) {
 	if(src.empty()){
 		cout << "Enter src file to copy: ";
 		src = getUserFile();
-		cout << "Would you like to checksum the src and moved files to check file integrity(y/N) ";
-		cin >> input;
-		if(input=="Y"||input=="y"){
-			cout << "checksum flag active\n";
-			checksum=1;
-		}
-		cout << "Would you like to change the owner and group permissions of file(y/N) ";
-		cin >> input;
-		if(input=="Y"||input=="y"){
-			cout << "permission flag active\n";
-			permission=1;
-		}
-		cout << "Would you like their to be a .txt file in the destination path with";
-		cout << "time, date, and original file path of the file transfer for future notice(y/N) ";
-		cin >> input;
-		if(input=="Y"||input=="y"){
-			cout << "info text file flag active\n";
-			info=1;
-		}
 	}
 	if(path.empty()){
 		cout << "Enter full destination path to copy src file to: ";
@@ -166,6 +119,8 @@ int main(int arc, char* argv[]) {
 			path=dest+src;
 		else
 			path=dest+"/"+src;
+	}
+	if(flagquestion==0){
 		cout << "Would you like to checksum the src and moved files to check file integrity(y/N) ";
 		cin >> input;
 		if(input=="Y"||input=="y"){
@@ -185,6 +140,7 @@ int main(int arc, char* argv[]) {
 			cout << "info text file flag active\n";
 			info=1;
 		}
+		flagquestion=1;
 	}
 	copy(src,path,checksum,permission,info);
 }
