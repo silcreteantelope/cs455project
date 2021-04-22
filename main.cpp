@@ -35,10 +35,6 @@ string getUserFile(){
 	return filename;
 }
 
-bool isattemptAtInjection(string input){
-	return true; //Temp fix, Sean fix your shit their needs to be a return statement
-}
-
 //Int copy() takes src, path, and flags and copies the file to the path
 int copy(string src,string path,int cflag,int pflag,int iflag){
 	ifstream file1(src);
