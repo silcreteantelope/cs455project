@@ -4,6 +4,7 @@
 
 using namespace std;
 
+
 const int maxFilenameLength = 254;
 const string illegalChars = "\\:*?\"<>|"; // The char / was removed to allow for paths to be entered
 
@@ -67,6 +68,9 @@ int copy(string src,string path,int pflag,int iflag){
 		const char * command = permissioncommand.c_str();
 		system(command);
 	}
+	if(iflag==1){
+		//txt file creation here
+	}
 	return 0;
 }
 
@@ -78,7 +82,7 @@ int main(int arc, char* argv[]) {
 	int checksum=0,permission=0,info=0;
 	int flagquestion=0; //Check if user has been asked if flags shall be enabled
 	for(int i=1;i<=arc-1;i++){
-		cout << "argv["<< i << "]= " << argv[i] << "\n";
+		//cout << "argv["<< i << "]= " << argv[i] << "\n";
 		string temp(argv[i]);
 		if(temp.find('-') != std::string::npos){
 			flagquestion=1;
