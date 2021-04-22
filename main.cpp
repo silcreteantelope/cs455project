@@ -5,28 +5,32 @@
 using namespace std;
 
 const int maxFilenameLength = 254;
-const string illegalChars = "\\/:*?\"<>|";
+const string illegalChars = "\\:*?\"<>|"; // The char / was removed to allow for paths to be entered
 
 string getUserFile(){
 	string filename;
 	bool hasIllegal = false;
+	int i=0;
 	int filenameLength;
 
-    do {    //cin a filename from user
+    	do {    //cin a filename from user
 		cin >> filename;
 		filenameLength = filename.length();	//record its length
-		for(int i=0; i<filenameLength; i++) {	//make sure it doesn't contain any illegal characters
+		for(i=0; i<filenameLength; i++) {	//make sure it doesn't contain any illegal characters
 			cout<<"Current char: "<<filename[i]<<"\n";
 			if(illegalChars.find_first_of(filename[i]) != string::npos){ hasIllegal = true; cout<<"This char is illegal"<<filename[i]<<"\n";}
-			else if(!isalnum(filename[i])) hasIllegal = true; 	//if it does, ask for a new one
+			//else if(!isalnum(filename[i])) hasIllegal = true; 	//if it does, ask for a new one
 		}
+	
+        	if(hasIllegal){
+			cout << "The filename you entered was not valid." << endl; //repeats the process of prompting for a name until the user enters a valid one
+        		i=0;	
+		}
+		cin.clear();    //clears the previous input in the case it wasn't a valid filename
+        	cin.ignore(256,'\n');   //ignores the previous enter
+	} while((cin.fail()) || hasIllegal || (filenameLength >= maxFilenameLength));
 
-        cout << "The filename you entered was not valid." << endl; //repeats the process of prompting for a name until the user enters a valid one
-        cin.clear();    //clears the previous input in the case it wasn't a valid filename
-        cin.ignore(256,'\n');   //ignores the previous enter
-    } while((cin.fail()) || hasIllegal || (filenameLength >= maxFilenameLength));
-
-    cin.ignore(); //prevents the last enter from being counted as an empty Movie
+    	//cin.ignore(); //prevents the last enter from being counted as an empty Movie
 
 
 	return filename;
@@ -58,7 +62,7 @@ int copy(string src,string path,int cflag,int pflag,int iflag){
 	}
 	file1.close();
 	file2.close();
-	if(pflag=1){
+	if(pflag==1){
 		string user,group;
 		cout << "Enter unix user to own file: ";
 		cin >> user;
@@ -78,6 +82,7 @@ int main(int arc, char* argv[]) {
 	string src, dest, path, input;
 	int checksum=0,permission=0,info=0;
 	
+	/*
 	if(arc==1){ //No src file or destination or flags
 		cout << "Enter src file to copy: ";		
 		src = getUserFile();
@@ -104,6 +109,7 @@ int main(int arc, char* argv[]) {
 			info=1;
 		}
 	}
+	/**/
 	for(int i=1;i<=arc-1;i++){
 		cout << "argv["<< i << "]= " << argv[i] << "\n";
 		string temp(argv[i]);
@@ -133,20 +139,20 @@ int main(int arc, char* argv[]) {
 	if(src.empty()){
 		cout << "Enter src file to copy: ";
 		src = getUserFile();
-		cout << "Would you like to checksum the src and moved files to check file integrity(y/n) ";
+		cout << "Would you like to checksum the src and moved files to check file integrity(y/N) ";
 		cin >> input;
 		if(input=="Y"||input=="y"){
 			cout << "checksum flag active\n";
 			checksum=1;
 		}
-		cout << "Would you like to change the owner and group permissions of file(y/n) ";
+		cout << "Would you like to change the owner and group permissions of file(y/N) ";
 		cin >> input;
 		if(input=="Y"||input=="y"){
 			cout << "permission flag active\n";
 			permission=1;
 		}
 		cout << "Would you like their to be a .txt file in the destination path with";
-		cout << "time, date, and original file path of the file transfer for future notice(y/n) ";
+		cout << "time, date, and original file path of the file transfer for future notice(y/N) ";
 		cin >> input;
 		if(input=="Y"||input=="y"){
 			cout << "info text file flag active\n";
@@ -156,19 +162,24 @@ int main(int arc, char* argv[]) {
 	if(path.empty()){
 		cout << "Enter full destination path to copy src file to: ";
 		dest = getUserFile();
-		path=dest+"/"+src;
+		if(dest.back()=='/')//check if path has a slash at end
+			path=dest+src;
+		else
+			path=dest+"/"+src;
+		cout << "Would you like to checksum the src and moved files to check file integrity(y/N) ";
+		cin >> input;
 		if(input=="Y"||input=="y"){
 			cout << "checksum flag active\n";
 			checksum=1;
 		}
-		cout << "Would you like to change the owner and group permissions of file(y/n) ";
+		cout << "Would you like to change the owner and group permissions of file(y/N) ";
 		cin >> input;
 		if(input=="Y"||input=="y"){
 			cout << "permission flag active\n";
 			permission=1;
 		}
 		cout << "Would you like their to be a .txt file in the destination path with";
-		cout << "time, date, and original file path of the file transfer for future notice(y/n) ";
+		cout << "time, date, and original file path of the file transfer for future notice(y/N) ";
 		cin >> input;
 		if(input=="Y"||input=="y"){
 			cout << "info text file flag active\n";
