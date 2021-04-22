@@ -14,7 +14,7 @@ string getUserFile(){
 	int filenameLength;
 
     	do {    //cin a filename from user
-		cin >> filename;
+		getline(cin,filename);
 		filenameLength = filename.length();	//record its length
 		for(i=0; i<filenameLength; i++) {	//make sure it doesn't contain any illegal characters
 			if(illegalChars.find_first_of(filename[i]) != string::npos){ hasIllegal = true; cout<<"This char is illegal"<<filename[i]<<"\n";}
@@ -36,7 +36,7 @@ string getUserFile(){
 }
 
 //Int copy() takes src, path, and flags and copies the file to the path
-int copy(string src,string path,int cflag,int pflag,int iflag){
+int copy(string src,string path,int pflag,int iflag){
 	ifstream file1(src);
 	ofstream file2(path);
 	if(file1.good()){
@@ -117,12 +117,6 @@ int main(int arc, char* argv[]) {
 			path=dest+"/"+src;
 	}
 	if(flagquestion==0){
-		cout << "Would you like to checksum the src and moved files to check file integrity(y/N) ";
-		cin >> input;
-		if(input=="Y"||input=="y"){
-			cout << "checksum flag active\n";
-			checksum=1;
-		}
 		cout << "Would you like to change the owner and group permissions of file(y/N) ";
 		cin >> input;
 		if(input=="Y"||input=="y"){
@@ -138,5 +132,5 @@ int main(int arc, char* argv[]) {
 		}
 		flagquestion=1;
 	}
-	copy(src,path,checksum,permission,info);
+	copy(src,path,permission,info);
 }
