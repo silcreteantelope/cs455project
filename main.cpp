@@ -167,7 +167,7 @@ int main(int arc, char* argv[]) {
 		flagquestion=1;
 	}
 	try{
-		copy(src,path,checksum,permission,info);
+		copy(src,path,fpath,checksum,permission,info);
 	} catch(const char *errmsg){
 		cerr << "Exception: " << errmsg << endl;
 	}
