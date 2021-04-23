@@ -29,7 +29,6 @@ string getUserFile(){
         	cin.ignore(256,'\n');   //ignores the previous enter
 	} while((cin.fail()) || hasIllegal || (filenameLength >= maxFilenameLength));	//1-1 BUFFER OVERRUN
 																					//ensures that inputted strings do not exceed a certain length
-																					//2-1 
     	//cin.ignore(); //prevents the last enter from being counted as a filename
 
 
@@ -38,9 +37,16 @@ string getUserFile(){
 
 
 //Int copy() takes src, path, and flags and copies the file to the path
-int copy(string src,string path,int cflag,int pflag,int iflag){
+int copy(string src,string path,int cflag,int pflag,int iflag){	
 	ifstream file1(src);
+	if(!file1){
+		throw "Unable to open source file";
+	}	
 	ofstream file2(path);
+	if(!file2){
+		throw "Unable to open destination file";
+	}
+
 	if(file1.good()){
 		string line;
 		if (file1.good() && file2.good()) {
@@ -140,5 +146,9 @@ int main(int arc, char* argv[]) {
 		}
 		flagquestion=1;
 	}
+	try{
 	copy(src,path,checksum,permission,info);
+	} catch(const char *errmsg){
+		cerr << "Exception: " << errmsg << endl;
+	}
 }
