@@ -42,12 +42,12 @@ string getUserFile(){
 
 //Function copy() takes src, path, and flags and copies the file to the path then does flag functionality if requested		verificationcomment
 //Primary Author:Charles & Jack with additions from Sean		verificationcomment
-int copy(string src,string path,int cflag,int pflag,int iflag){	
+int copy(string src, string dest, string path,int cflag,int pflag,int iflag){	
 	ifstream file1(src);
 	if(!file1){
 		throw "Unable to open source file";
 	}	
-	ofstream file2(path);
+	ofstream file2(dest);
 	if(!file2){
 		throw "Unable to open destination file";
 	}
