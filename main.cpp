@@ -42,9 +42,9 @@ string getUserFile(){
 
 //Function copy() takes src, path, and flags and copies the file to the path then does flag functionality if requested		verificationcomment
 //Primary Author:Charles & Jack with additions from Sean		verificationcomment
-int copy(string src,string path,int pflag,int iflag){
+int copy(string src,string dest,string path,int pflag,int iflag){
 	ifstream file1(src);
-	ofstream file2(path);
+	ofstream file2(dest);
 	if(file1.good()){
 		string line;
 		if (file1.good() && file2.good()) {
@@ -57,7 +57,7 @@ int copy(string src,string path,int pflag,int iflag){
 	else {
 		cout << "File not owned by process or does not exist, if the file is owned by root";		//4-1  error message doesn't expose too much information		verificationcomment
 		cout << "or another user complete the sudo prompt, else check if file exists\n";			
-		string strcommand = "sudo ./filecopy "+src+" "+path;
+		string strcommand = "sudo ./filecopy "+src+" "+dest;
 		const char * command = strcommand.c_str();
 		system(command);
 	}
@@ -69,12 +69,17 @@ int copy(string src,string path,int pflag,int iflag){
 		cin >> user;
 		cout << "Enter unix group to own file: ";
 		cin >> group;
-		string permissioncommand = "chown "+user+":"+group+" "+path;
+		string permissioncommand = "chown "+user+":"+group+" "+dest;
 		const char * command = permissioncommand.c_str();
 		system(command);
 	}
 	if(iflag==1){
-		//txt file creation here
+			//.txt file maker with current date and time
+			std::ofstream outfile (path+"summary.txt");
+			auto timenow = chrono::system_clock::to_time_t(chrono::system_clock::now());
+			outfile << "time of transfer: " <<  ctime(&timenow) << "Original file=src" << src << std::endl;
+			outfile.close();
+
 	}
 	return 0;
 }
@@ -85,7 +90,7 @@ int main(int arc, char* argv[]) {
 	
 	cout << "\nFileCopy started: \n";
 	
-	string src, dest, path, input;
+	string src, dest, path, fpath, input;
 	int checksum=0,permission=0,info=0;
 	int flagquestion=0; //Check if user has been asked if flags shall be enabled
 	for(int i=1;i<=arc-1;i++){
@@ -110,8 +115,15 @@ int main(int arc, char* argv[]) {
 			if(src.empty())
 				src=argv[i];
 			else if(path.empty()){
-				string destpath(argv[i]);
-				path=destpath+"/"+src;
+				dest=argv[i];
+				if(dest.back()=='/') { //check if path has a slash at end
+					fpath=dest;
+					path=dest+src;
+				}
+				else {
+					fpath=dest+"/";
+					path=dest+"/"+src;
+				}
 			}
 		}
 	}
@@ -122,10 +134,14 @@ int main(int arc, char* argv[]) {
 	if(path.empty()){
 		cout << "Enter full destination path to copy src file to: ";
 		dest = getUserFile();
-		if(dest.back()=='/')//check if path has a slash at end
+		if(dest.back()=='/'){//check if path has a slash at end
+			fpath=dest;
 			path=dest+src;
-		else
+		}
+		else {
+			fpath=dest+"/";
 			path=dest+"/"+src;
+		}
 	}
 	if(flagquestion==0){
 		cout << "Would you like to change the owner and group permissions of file(y/n) ";
@@ -140,15 +156,8 @@ int main(int arc, char* argv[]) {
 		if(input=="Y"||input=="y"){
 			cout << "info text file flag active\n";
 			info=1;
-
-			//.txt file maker with current date and time
-			std::ofstream outfile ("summary.txt");
-			auto timenow = chrono::system_clock::to_time_t(chrono::system_clock::now());
-			outfile << "time of transfer: " <<  ctime(&timenow) << std::endl;
-			outfile.close();
-
 		}
 		flagquestion=1;
 	}
-	copy(src,path,permission,info);
+	copy(src,path,fpath,permission,info);
 }
