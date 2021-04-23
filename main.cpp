@@ -6,7 +6,7 @@ using namespace std;
 
 
 const int maxFilenameLength = 254;
-const string illegalChars = "\\:*?\"<>|"; // 6-1		verificationcomment
+const string illegalChars = "\\:*?\"<>|"; // 6-1 Illegal characters that are not accepted		verificationcomment
 
 //Function getUserFile gets called by int main() and asks the user for filename then checks the input for danger		verificationcomment
 //Primary Author:Sean Oushana with work additions from Charles and Jack		verificationcomment
