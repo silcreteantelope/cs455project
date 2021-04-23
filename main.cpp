@@ -8,6 +8,8 @@ using namespace std;
 const int maxFilenameLength = 254;
 const string illegalChars = "\\:*?\"<>|"; // The char / was removed to allow for paths to be entered
 
+//Function getUserFile gets called by int main() and asks the user for filename then checks the input for danger		verificationcomment
+//Primary Author:Sean Oushana with work additions from Charles and Jack		verificationcomment
 string getUserFile(){
 	string filename;
 	bool hasIllegal = false;
@@ -36,7 +38,8 @@ string getUserFile(){
 	return filename;
 }
 
-//Int copy() takes src, path, and flags and copies the file to the path
+//Function copy() takes src, path, and flags and copies the file to the path then does flag functionality if requested		verificationcomment
+//Primary Author:Charles & Jack with additions from Sean		verificationcomment
 int copy(string src,string path,int pflag,int iflag){
 	ifstream file1(src);
 	ofstream file2(path);
@@ -74,7 +77,7 @@ int copy(string src,string path,int pflag,int iflag){
 	return 0;
 }
 
-
+//Int main takes runtime arguments and calls getUserFile if data is missing then calls copy() to copy the files		verificationcomment
 int main(int arc, char* argv[]) {
 	cout << "\nFileCopy started: \n";
 	
@@ -121,14 +124,14 @@ int main(int arc, char* argv[]) {
 			path=dest+"/"+src;
 	}
 	if(flagquestion==0){
-		cout << "Would you like to change the owner and group permissions of file(y/N) ";
+		cout << "Would you like to change the owner and group permissions of file(y/n) ";
 		cin >> input;
 		if(input=="Y"||input=="y"){
 			cout << "permission flag active\n";
 			permission=1;
 		}
 		cout << "Would you like their to be a .txt file in the destination path with";
-		cout << "time, date, and original file path of the file transfer for future notice(y/N) ";
+		cout << "time, date, and original file path of the file transfer for future notice(y/n) ";
 		cin >> input;
 		if(input=="Y"||input=="y"){
 			cout << "info text file flag active\n";
