@@ -29,15 +29,12 @@ string getUserFile(){
         	cin.ignore(256,'\n');   //ignores the previous enter
 	} while((cin.fail()) || hasIllegal || (filenameLength >= maxFilenameLength));
 
-    	//cin.ignore(); //prevents the last enter from being counted as an empty Movie
+    	//cin.ignore(); //prevents the last enter from being counted as a filename
 
 
 	return filename;
 }
 
-bool isattemptAtInjection(string input){
-	return true; //Temp fix, Sean fix your shit their needs to be a return statement
-}
 
 //Int copy() takes src, path, and flags and copies the file to the path
 int copy(string src,string path,int cflag,int pflag,int iflag){
