@@ -1,6 +1,8 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <chrono>
+#include <ctime>
 
 using namespace std;
 
@@ -79,6 +81,8 @@ int copy(string src,string path,int pflag,int iflag){
 
 //Int main takes runtime arguments and calls getUserFile if data is missing then calls copy() to copy the files		verificationcomment
 int main(int arc, char* argv[]) {
+	
+	
 	cout << "\nFileCopy started: \n";
 	
 	string src, dest, path, input;
@@ -136,6 +140,13 @@ int main(int arc, char* argv[]) {
 		if(input=="Y"||input=="y"){
 			cout << "info text file flag active\n";
 			info=1;
+
+			//.txt file maker with current date and time
+			std::ofstream outfile ("summary.txt");
+			auto timenow = chrono::system_clock::to_time_t(chrono::system_clock::now());
+			outfile << "time of transfer: " <<  ctime(&timenow) << std::endl;
+			outfile.close();
+
 		}
 		flagquestion=1;
 	}
