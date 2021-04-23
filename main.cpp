@@ -6,7 +6,7 @@ using namespace std;
 
 
 const int maxFilenameLength = 254;
-const string illegalChars = "\\:*?\"<>|"; // The char / was removed to allow for paths to be entered
+const string illegalChars = "\\:*?\"<>|"; // 6-1		verificationcomment
 
 //Function getUserFile gets called by int main() and asks the user for filename then checks the input for danger		verificationcomment
 //Primary Author:Sean Oushana with work additions from Charles and Jack		verificationcomment
@@ -20,18 +20,18 @@ string getUserFile(){
 		getline(cin,filename);
 		filenameLength = filename.length();	//record its length
 		for(i=0; i<filenameLength; i++) {	//make sure it doesn't contain any illegal characters
-			if(illegalChars.find_first_of(filename[i]) != string::npos){ hasIllegal = true; cout<<"This char is illegal"<<filename[i]<<"\n";}
+			if(illegalChars.find_first_of(filename[i]) != string::npos){ hasIllegal = true; cout<<"This char is illegal"<<filename[i]<<"\n";}	//8-1 Prints statements when invalid input is entered		verificationcomment
 			//else if(!isalnum(filename[i])) hasIllegal = true; 	//if it does, ask for a new one
 		}
 	
         	if(hasIllegal){
-			cout << "The filename you entered was not valid. Enter new filename or ctrl-c" << endl; //repeats the process of prompting for a name until the user enters a valid one
+			cout << "The filename you entered was not valid. Enter new filename or ctrl-c" << endl; //repeats the process of prompting for a name until the user enters a valid one  8-1   verificationcomment
         		i=0;	
 		}
 		cin.clear();    //clears the previous input in the case it wasn't a valid filename
         	cin.ignore(256,'\n');   //ignores the previous enter
-	} while((cin.fail()) || hasIllegal || (filenameLength >= maxFilenameLength));
-
+	} while((cin.fail()) || hasIllegal || (filenameLength >= maxFilenameLength));		//6-1 Reiterates through program till safe input is entered or process exited	1-1 BUFFER OVERRUN		verificationcomment
+																					//2-1		verificationcomment
     	//cin.ignore(); //prevents the last enter from being counted as an empty Movie
 
 
@@ -53,7 +53,7 @@ int copy(string src,string path,int pflag,int iflag){
 		}
 	}
 	else {
-		cout << "File not owned by process or does not exist, if the file is owned by root";		//4-1  error message doesn't expose too much information
+		cout << "File not owned by process or does not exist, if the file is owned by root";		//4-1  error message doesn't expose too much information		verificationcomment
 		cout << "or another user complete the sudo prompt, else check if file exists\n";			
 		string strcommand = "sudo ./filecopy "+src+" "+path;
 		const char * command = strcommand.c_str();
