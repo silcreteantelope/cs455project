@@ -45,12 +45,12 @@ string getUserFile(){
 int copy(string src, string dest, string path,int cflag,int pflag,int iflag){	
 	ifstream file1(src);
 	if(!file1){
-		throw "Unable to open source file";
-	}	
+		throw "Unable to open source file";		//5-1 throws exception in the case that the file is not found or can't be opened	verificationcomment
+	}											//4-1 error message doesn't expose too much information	verificationcomment
 	ofstream file2(dest);
 	if(!file2){
-		throw "Unable to open destination file";
-	}
+		throw "Unable to open destination file";//5-1 throws exception in the case that the file is not found or can't be opened	verificationcomment
+	}											//4-1 error message doesn't expose too much information	verificationcomment
 
 	if(file1.good()){
 		string line;
@@ -93,7 +93,6 @@ int copy(string src, string dest, string path,int cflag,int pflag,int iflag){
 
 //Int main takes runtime arguments and calls getUserFile if data is missing then calls copy() to copy the files		verificationcomment
 int main(int arc, char* argv[]) {
-	
 	
 	cout << "\nFileCopy started: \n";
 	
@@ -166,9 +165,9 @@ int main(int arc, char* argv[]) {
 		}
 		flagquestion=1;
 	}
-	try{
+	try{	
 		copy(src,path,fpath,checksum,permission,info);
-	} catch(const char *errmsg){
-		cerr << "Exception: " << errmsg << endl;
+	} catch(const char *errmsg){	//5-1 catches the exceptions that are thrown in copy() whenever file opening fails	verificationcomment
+		cerr << "Exception: " << errmsg << endl;	//4-1  error message doesn't expose too much information		verificationcomment
 	}
 }
