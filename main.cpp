@@ -42,7 +42,7 @@ string getUserFile(){
 
 //Function copy() takes src, path, and flags and copies the file to the path then does flag functionality if requested		verificationcomment
 //Primary Author:Charles & Jack with additions from Sean		verificationcomment
-int copy(string src, string dest, string path,int cflag,int pflag,int iflag){	
+int copy(string src, string dest, string path,int pflag,int iflag){	
 	ifstream file1(src);
 	if(!file1){
 		throw "Unable to open source file";
@@ -98,17 +98,13 @@ int main(int arc, char* argv[]) {
 	cout << "\nFileCopy started: \n";
 	
 	string src, dest, path, fpath, input;
-	int checksum=0,permission=0,info=0;
+	int permission=0,info=0;
 	int flagquestion=0; //Check if user has been asked if flags shall be enabled
 	for(int i=1;i<=arc-1;i++){
 		//cout << "argv["<< i << "]= " << argv[i] << "\n";
 		string temp(argv[i]);
 		if(temp.find('-') != std::string::npos){
 			flagquestion=1;
-			if(temp.find('c') != std::string::npos){
-				cout << "checksum flag active\n";
-				checksum=1;
-			}
 			if(temp.find('p') != std::string::npos){
 				cout << "permission flag active\n";
 				permission=1;
@@ -167,7 +163,7 @@ int main(int arc, char* argv[]) {
 		flagquestion=1;
 	}
 	try{
-		copy(src,path,fpath,checksum,permission,info);
+		copy(src,path,fpath,permission,info);
 	} catch(const char *errmsg){
 		cerr << "Exception: " << errmsg << endl;
 	}
